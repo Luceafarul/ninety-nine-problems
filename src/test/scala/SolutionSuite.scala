@@ -69,4 +69,16 @@ class SolutionSuite extends munit.FunSuite {
     val expected = List((4, 'a'), (1, 'b'), (2, 'c'), (2, 'a'), (1, 'd'), (4, 'e'))
     assertEquals(encode(xs), expected)
   }
+
+  test("encodeModified") {
+    val xs       = List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')
+    val expected = List((4, 'a'), 'b', (2, 'c'), (2, 'a'), 'd', (4, 'e'))
+    assertEquals(encodeModified(xs), expected)
+  }
+
+  test("decode") {
+    val xs       = List((4, 'a'), (1, 'b'), (2, 'c'), (2, 'a'), (1, 'd'), (4, 'e'))
+    val expected = List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')
+    assertEquals(decode(xs), expected)
+  }
 }

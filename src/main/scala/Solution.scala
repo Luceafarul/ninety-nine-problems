@@ -1,4 +1,5 @@
 import scala.annotation.tailrec
+import scala.util.Try
 
 extension [A <: Any](a: A) def some: Option[A] = Some(a)
 
@@ -96,4 +97,25 @@ def encode[A](xs: List[A]): List[(Int, A)] =
     acc.lastOption match
       case Some((count, a)) if a.equals(elem) => acc.init :+ (count + 1, a)
       case _                                  => acc :+ (1 -> elem)
+  }
+
+// Modified run-length encoding.
+def encodeModified[A](xs: List[A]): List[Any] =
+  xs.foldLeft(List.empty) { (acc, elem) =>
+    acc.lastOption match
+      case Some(accElem) =>
+        val pair = Try(accElem.asInstanceOf[(Int, A)]).toOption
+        val a    = Try(accElem.asInstanceOf[A]).toOption
+        (pair, a) match
+          case (Some(count -> a), Some(_)) if a.equals(elem) => acc.init :+ (count + 1, a)
+          case (None, Some(a)) if a.equals(elem)             => acc.init :+ (2 -> elem)
+          case (_, _)                                        => acc :+ elem
+      case _ => acc :+ elem
+  }
+
+// Decode a run-length encoded list.
+def decode[A](xs: List[(Int, A)]): List[A] =
+  xs.foldLeft(List.empty[A]) { (acc, elem) =>
+    val (count, a) = elem
+    acc ++ List.fill(count)(a)
   }
