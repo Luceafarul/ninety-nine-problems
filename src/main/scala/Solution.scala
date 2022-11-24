@@ -119,3 +119,17 @@ def decode[A](xs: List[(Int, A)]): List[A] =
     val (count, a) = elem
     acc ++ List.fill(count)(a)
   }
+
+// Duplicate the elements of a list.
+def duplicate[A](xs: List[A]): List[A] =
+  xs.groupBy(identity).foldLeft(List.empty[A]) { (acc, pair) =>
+    val (a, list) = pair
+    acc ++ List.fill(list.size * 2)(a)
+  }
+
+// Duplicate the elements of a list a given number of times.
+def duplicateN[A](n: Int, xs: List[A]): List[A] =
+  xs.groupBy(identity).foldLeft(List.empty[A]) { (acc, pair) =>
+    val (a, list) = pair
+    acc ++ List.fill(list.size * n)(a)
+  }

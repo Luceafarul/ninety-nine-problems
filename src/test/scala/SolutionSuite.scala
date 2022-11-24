@@ -81,4 +81,16 @@ class SolutionSuite extends munit.FunSuite {
     val expected = List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')
     assertEquals(decode(xs), expected)
   }
+
+  test("duplicate") {
+    val xs       = List('a', 'b', 'c', 'c', 'd')
+    val expected = List('a', 'a', 'b', 'b', 'c', 'c', 'c', 'c', 'd', 'd')
+    assertEquals(duplicate(xs), expected)
+  }
+
+  test("duplicateN") {
+    val xs       = List('a', 'b', 'c', 'c', 'd')
+    val expected = List('a', 'a', 'a', 'b', 'b', 'b', 'c', 'c', 'c', 'c', 'c', 'c', 'd', 'd', 'd')
+    assertEquals(duplicateN(3, xs), expected)
+  }
 }
